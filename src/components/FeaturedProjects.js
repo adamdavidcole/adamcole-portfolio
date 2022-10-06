@@ -18,7 +18,7 @@ function FeaturedProject({ project }) {
         </div>
         <div>
           {getProjectImageURLs(project)?.map((imageURL) => (
-            <img src={imageURL} />
+            <img key={imageURL} src={imageURL} />
           ))}
         </div>
       </div>

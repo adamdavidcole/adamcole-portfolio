@@ -3,7 +3,6 @@ import BannerSubtitle from "./BannerSubtitle";
 import FeaturedProjects from "./FeaturedProjects";
 
 export default function Home({ featuredProjects = [] } = {}) {
-  console.log("HOME: ", featuredProjects);
   return (
     <div>
       <Banner />
