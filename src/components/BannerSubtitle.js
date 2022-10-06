@@ -1,27 +1,33 @@
 import styled from "styled-components";
-import { FONT_SIZE } from "../utility/style-constants";
+import { H3 } from "../utility/typography";
 
-const BannerSubtitleContainer = styled.div`
+const BannerSubtitleContainer = styled.span`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  font-size: ${FONT_SIZE.subheader};
 `;
 
 const dividerFontSize = 60;
 const BannerSubtitleDivider = styled.span`
   font-size: ${dividerFontSize}px;
-  height: ${dividerFontSize}px;
+  position: relative;
+  top: 10px;
 `;
 
 export default function BannerSubtitle() {
   return (
-    <BannerSubtitleContainer>
-      <span>Artist</span>
-      <BannerSubtitleDivider>·</BannerSubtitleDivider>
-      <span>Technologist</span>
-      <BannerSubtitleDivider>·</BannerSubtitleDivider>
-      <span>AI</span>
-    </BannerSubtitleContainer>
+    <div>
+      <hr />
+      <H3 fontWeight={400}>
+        <BannerSubtitleContainer>
+          <span>Artist</span>
+          <BannerSubtitleDivider>·</BannerSubtitleDivider>
+          <span>Technologist</span>
+          <BannerSubtitleDivider>·</BannerSubtitleDivider>
+          <span>AI</span>{" "}
+        </BannerSubtitleContainer>
+      </H3>
+      <hr />
+    </div>
   );
 }

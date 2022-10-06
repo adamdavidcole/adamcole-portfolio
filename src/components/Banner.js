@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { SPACING_PX } from "../utility/style-constants";
 
 const BannerContainer = styled.div`
   display: flex;

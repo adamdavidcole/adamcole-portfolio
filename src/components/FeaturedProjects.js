@@ -1,3 +1,6 @@
+import styled from "styled-components";
+import { SPACING_PX } from "../utility/style-constants";
+
 import {
   getProjectTitle,
   getProjectSubtitle,
@@ -5,34 +8,39 @@ import {
   getProjectKeywords,
   getProjectImageURLs,
 } from "../data/data-selectors";
+import { H2, H3, H4, Body } from "../utility/typography";
 
 function FeaturedProject({ project }) {
   return (
     <div>
-      <h3>{getProjectTitle(project)}</h3>
-      <h4>{getProjectSubtitle(project)}</h4>
       <div>
+        {getProjectImageURLs(project)?.map((imageURL) => (
+          <img key={imageURL} src={imageURL} />
+        ))}
+      </div>
+      <H3>{getProjectTitle(project)}</H3>
+      <H4 fontWeight={400}>{getProjectSubtitle(project)}</H4>
+      <Body>
         <div>{getProjectTextEl(project)}</div>
         <div>
           <strong>Tools:</strong> {getProjectKeywords(project)?.join(", ")}
         </div>
-        <div>
-          {getProjectImageURLs(project)?.map((imageURL) => (
-            <img key={imageURL} src={imageURL} />
-          ))}
-        </div>
-      </div>
+      </Body>
     </div>
   );
 }
 
+const FeaturedProjectsContainer = styled.div`
+  margin: 0 ${SPACING_PX[250]};
+`;
+
 export default function FeaturedProjects({ featuredProjects = [] } = {}) {
   return (
-    <div>
-      <h2>Featured Projects</h2>
+    <FeaturedProjectsContainer>
+      <H2>Featured Projects</H2>
       {featuredProjects.map((project) => (
         <FeaturedProject key={project._id} project={project} />
       ))}
-    </div>
+    </FeaturedProjectsContainer>
   );
 }
