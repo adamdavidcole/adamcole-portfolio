@@ -36,26 +36,26 @@ export default function Navigation() {
   return (
     <Nav>
       <Logo>
-        <H2>
+        <H3>
           <NavLink to="/">ADAM COLE</NavLink>
-        </H2>
+        </H3>
       </Logo>
       <List>
-        <H2 fontWeight={400}>
+        <H3 fontWeight={400}>
           <ListEl>
             <NavLink to="/projects">Works</NavLink>
           </ListEl>
-        </H2>
-        <H2 fontWeight={400}>
+        </H3>
+        <H3 fontWeight={400}>
           <ListEl>
             <NavLink to="/about">About</NavLink>
           </ListEl>
-        </H2>
-        <H2 fontWeight={400}>
+        </H3>
+        <H3 fontWeight={400}>
           <ListEl>
             <NavLink to="/nothing-here">Contact</NavLink>
           </ListEl>
-        </H2>
+        </H3>
       </List>
     </Nav>
   );
