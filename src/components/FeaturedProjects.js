@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import Slider from "react-slick";
+
 import { SPACING_PX } from "../utility/style-constants";
 import getVimeoEmbed from "../utility/get-vimeo-embed";
 
@@ -8,10 +10,14 @@ import {
   getProjectSubtitle,
   getProjectTextEl,
   getProjectKeywords,
+  getProjectGraphicURLs,
   getProjectImageURLs,
   getProjectVideoLinks,
 } from "../data/data-selectors";
 import { H2, H3, H4, Body } from "../utility/typography";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const VisualContent = styled.div`
   display: flex;
@@ -28,11 +34,48 @@ const VisualContentElement = styled.div`
 
 const VisualContentImg = styled.img`
   width: 100%;
+  max-height: 450px;
+  max-width: 800px;
+  object-fit: contain;
+  //   box-shadow: inset 0 0 5px 0px rgb(0, 0, 0, 0.5);
+`;
+
+const VisualContentVideo = styled.video`
+  width: 100%;
+  max-height: 450px;
+  max-width: 800px;
+  object-fit: contain;
 `;
 
 const DescriptionBody = styled(Body)`
   margin-top: 2rem;
 `;
+
+const SlideContainer = styled.div`
+  max-height: 450px;
+  max-width: 800px;
+`;
+
+function SimpleSlider({ slides = [] }) {
+  console.log(slides);
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  return (
+    <div>
+      <Slider {...settings}>
+        {slides.map((slide) => (
+          <SlideContainer>{slide}</SlideContainer>
+        ))}
+      </Slider>
+    </div>
+  );
+}
 
 function FeaturedProject({ project }) {
   const [videoEmbed, setVideoEmbed] = useState();
@@ -51,6 +94,21 @@ function FeaturedProject({ project }) {
     }
   }, [project]);
 
+  const imageURLs = getProjectImageURLs(project);
+  console.log("imageURLs", imageURLs);
+  const images = imageURLs?.map((imageURL) => (
+    <VisualContentImg key={imageURL} src={imageURL} alt={""} />
+  ));
+
+  const graphicURLs = getProjectGraphicURLs(project);
+  console.log(graphicURLs);
+
+  const videos = graphicURLs?.map((videoURL) => (
+    <VisualContentVideo autoPlay muted preload loop>
+      <source src={videoURL} type="video/mp4" />
+    </VisualContentVideo>
+  ));
+
   return (
     <div>
       <VisualContent>
@@ -59,10 +117,11 @@ function FeaturedProject({ project }) {
             dangerouslySetInnerHTML={{ __html: videoEmbed }}
           />
         )}
+        {/* <VisualContentElement>
+          {images && <SimpleSlider slides={images} />}
+        </VisualContentElement> */}
         <VisualContentElement>
-          {getProjectImageURLs(project)?.map((imageURL) => (
-            <VisualContentImg key={imageURL} src={imageURL} alt={""} />
-          ))}
+          {videos && <SimpleSlider slides={videos} />}
         </VisualContentElement>
       </VisualContent>
       <VisualContent>

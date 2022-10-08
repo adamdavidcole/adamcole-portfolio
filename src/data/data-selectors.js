@@ -3,6 +3,8 @@ import { PortableText } from "@portabletext/react";
 import dataClient from "./data-client";
 import imageUrlBuilder from "@sanity/image-url";
 
+import { PROJECT_ID, DATASET } from "./data-constants";
+
 let builder;
 
 function urlFor(source) {
@@ -13,6 +15,12 @@ function urlFor(source) {
   // builder an image and returns the builder for you to specify additional
   // parameters:
   return builder.image(source);
+}
+
+export function getGraphicURL(file) {
+  const ref = file.asset._ref;
+  const [_file, id, extension] = ref.split("-");
+  return `https://cdn.sanity.io/files/${PROJECT_ID}/${DATASET}/${id}.${extension}`;
 }
 
 export function getImageUrl(image) {
@@ -50,6 +58,17 @@ export function getProjectImages(project) {
 export function getProjectImageURLs(project) {
   const images = getProjectImages(project);
   return images?.map((image) => getImageUrl(image));
+}
+
+export function getProjectGraphics(project) {
+  // TODO: maybe convert to URLs?
+  return project?.graphics;
+}
+
+export function getProjectGraphicURLs(project) {
+  // TODO: maybe convert to URLs?
+  const graphics = getProjectGraphics(project);
+  return graphics?.map((graphic) => getGraphicURL(graphic));
 }
 
 export function getProjectVideoLinks(project) {
