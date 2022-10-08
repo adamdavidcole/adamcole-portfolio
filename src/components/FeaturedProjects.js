@@ -104,7 +104,7 @@ function FeaturedProject({ project }) {
   console.log(graphicURLs);
 
   const videos = graphicURLs?.map((videoURL) => (
-    <VisualContentVideo autoPlay muted preload loop>
+    <VisualContentVideo autoPlay muted preload loop playsInline>
       <source src={videoURL} type="video/mp4" />
     </VisualContentVideo>
   ));

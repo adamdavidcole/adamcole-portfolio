@@ -32,6 +32,7 @@ export default function Banner() {
       <VideoContainer>
         <Video
           autoPlay
+          playsInline
           muted
           preload
           loop
@@ -44,6 +45,7 @@ export default function Banner() {
       <VideoContainer>
         <Video
           autoPlay
+          playsInline
           muted
           preload
           loop
