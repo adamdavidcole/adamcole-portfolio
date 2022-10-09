@@ -28,17 +28,17 @@ const NavLink = styled(Link)`
   text-decoration: none;
 `;
 
-const Logo = styled.span`
-  font-weight: 700;
+const Logo = styled(H3)`
+  letter-spacing: 16px;
+  word-spacing: 8px;
+  font-weight: 900;
 `;
 
 export default function Navigation() {
   return (
     <Nav>
       <Logo>
-        <H3>
-          <NavLink to="/">ADAM COLE</NavLink>
-        </H3>
+        <NavLink to="/">ADAM COLE</NavLink>
       </Logo>
       <List>
         <H3 fontWeight={400}>

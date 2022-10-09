@@ -14,7 +14,7 @@ import {
   getProjectImageURLs,
   getProjectVideoLinks,
 } from "../data/data-selectors";
-import { H2, H3, H4, Body } from "../utility/typography";
+import { H2, H3, SerifH3, H4, Body } from "../utility/typography";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -22,6 +22,7 @@ import "slick-carousel/slick/slick-theme.css";
 const FeaturedProjectContainer = styled.div`
   border-bottom: 1px solid black;
   margin-bottom: 4rem;
+  padding-bottom: 8rem;
 `;
 
 const VisualContent = styled.div`
@@ -139,25 +140,22 @@ function FeaturedProject({ project }) {
             dangerouslySetInnerHTML={{ __html: videoEmbed }}
           />
         )}
-        {/* <VisualContentElement>
-          {images && <SimpleSlider slides={images} />}
-        </VisualContentElement> */}
         <VisualContentElement>
           {graphics && <SimpleSlider slides={graphics} />}
         </VisualContentElement>
       </VisualContent>
       <VisualContent>
         <VisualContentElement>
-          <H3>{getProjectTitle(project)}</H3>
+          <SerifH3>{getProjectTitle(project)}</SerifH3>
           <H4 fontWeight={400}>{getProjectSubtitle(project)}</H4>
-          <div>
-            <strong>Tools:</strong> {getProjectKeywords(project)?.join(", ")}
-          </div>
         </VisualContentElement>
         <VisualContentElement>
           <DescriptionBody>
             <div>{getProjectTextEl(project)}</div>
           </DescriptionBody>
+          <div>
+            <strong>Tools:</strong> {getProjectKeywords(project)?.join(", ")}
+          </div>
         </VisualContentElement>
       </VisualContent>
     </FeaturedProjectContainer>
@@ -171,7 +169,7 @@ const FeaturedProjectsContainer = styled.div`
 export default function FeaturedProjects({ featuredProjects = [] } = {}) {
   return (
     <FeaturedProjectsContainer>
-      <H2>Selected Works</H2>
+      <H4>Selected Works</H4>
       {featuredProjects.map((project) => (
         <FeaturedProject key={project._id} project={project} />
       ))}

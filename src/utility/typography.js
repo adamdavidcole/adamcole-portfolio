@@ -21,7 +21,11 @@ export const H3 = styled.h3`
   font-weight: ${(props) => props.fontWeight || "700"};
 `;
 
-export const H4 = styled.h3`
+export const SerifH3 = styled(H3)`
+  font-family: "Libre Caslon Text", serif;
+`;
+
+export const H4 = styled.h4`
   font-size: 1.305rem;
   line-height: 1.8675rem;
   margin-bottom: 1.743rem;
