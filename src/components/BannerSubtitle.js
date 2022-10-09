@@ -5,6 +5,9 @@ const BannerSubtitleContainer = styled.span`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  border-bottom: 1px solid #030303;
+  margin: 0 40px 40px;
+  padding-bottom: 20px;
 `;
 
 const dividerFontSize = 60;
@@ -17,7 +20,6 @@ const BannerSubtitleDivider = styled.span`
 export default function BannerSubtitle() {
   return (
     <div>
-      <hr />
       <H3 fontWeight={400}>
         <BannerSubtitleContainer>
           <span>Artist</span>
@@ -27,7 +29,6 @@ export default function BannerSubtitle() {
           <span>AI</span>{" "}
         </BannerSubtitleContainer>
       </H3>
-      <hr />
     </div>
   );
 }
