@@ -24,7 +24,7 @@ export default function Banner() {
   const videoRefC = useRef();
 
   const setPlayBack = (videoRef) => {
-    videoRef.current.playbackRate = 0.5;
+    videoRef.current.playbackRate = 0.3;
   };
 
   return (
@@ -52,7 +52,7 @@ export default function Banner() {
           ref={videoRefC}
           onCanPlay={() => setPlayBack(videoRefC)}
         >
-          <source src="/videos/a_interpolated_squid.mp4" type="video/mp4" />
+          <source src="/videos/c_interpolated_squid.mp4" type="video/mp4" />
         </Video>
       </VideoContainer>
     </BannerContainer>

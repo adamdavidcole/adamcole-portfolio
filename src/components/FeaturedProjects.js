@@ -19,6 +19,11 @@ import { H2, H3, H4, Body } from "../utility/typography";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+const FeaturedProjectContainer = styled.div`
+  border-bottom: 1px solid black;
+  margin-bottom: 4rem;
+`;
+
 const VisualContent = styled.div`
   display: flex;
   flex-align: row;
@@ -109,8 +114,25 @@ function FeaturedProject({ project }) {
     </VisualContentVideo>
   ));
 
+  const graphics = graphicURLs?.map((graphicURL) => {
+    console.log(
+      "graphicURL: ",
+      graphicURL,
+      'graphicURL.includes(".mp4")',
+      graphicURL.includes(".mp4")
+    );
+    if (graphicURL.includes(".mp4"))
+      return (
+        <VisualContentVideo autoPlay muted preload loop playsInline>
+          <source src={graphicURL} type="video/mp4" />
+        </VisualContentVideo>
+      );
+
+    return <VisualContentImg src={graphicURL} alt={""} />;
+  });
+
   return (
-    <div>
+    <FeaturedProjectContainer>
       <VisualContent>
         {videoEmbed && (
           <VisualContentElement
@@ -121,7 +143,7 @@ function FeaturedProject({ project }) {
           {images && <SimpleSlider slides={images} />}
         </VisualContentElement> */}
         <VisualContentElement>
-          {videos && <SimpleSlider slides={videos} />}
+          {graphics && <SimpleSlider slides={graphics} />}
         </VisualContentElement>
       </VisualContent>
       <VisualContent>
@@ -138,7 +160,7 @@ function FeaturedProject({ project }) {
           </DescriptionBody>
         </VisualContentElement>
       </VisualContent>
-    </div>
+    </FeaturedProjectContainer>
   );
 }
 

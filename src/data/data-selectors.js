@@ -80,6 +80,21 @@ export function getProjectIsFeatured(project) {
   return project?.isFeatured;
 }
 
+export function getProjectFeaturedSortOrder(project) {
+  console.log("project?.featuredSortOrder", project?.featuredSortOrder);
+  return project?.featuredSortOrder;
+}
+
 export function getProjectKeywords(project) {
   return project?.keywords;
+}
+
+export function getSortedFeaturedProjects(data) {
+  return data
+    ?.filter((project) => getProjectIsFeatured(project))
+    .sort(
+      (projectA, projectB) =>
+        getProjectFeaturedSortOrder(projectA) -
+        getProjectFeaturedSortOrder(projectB)
+    );
 }

@@ -4,6 +4,7 @@ import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import fetchData from "./data/fetch-data";
 import { useState, useEffect } from "react";
+import { getSortedFeaturedProjects } from "./data/data-selectors";
 
 export default function App() {
   const [projectData, setProjectData] = useState([]);
@@ -14,6 +15,9 @@ export default function App() {
     });
   }, []);
 
+  const featuredProjects = getSortedFeaturedProjects(projectData);
+  console.log(featuredProjects);
+
   return (
     <div>
       {/* Routes nest inside one another. Nested route paths build upon
@@ -21,7 +25,7 @@ export default function App() {
             parent route elements. See the note about <Outlet> below. */}
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home featuredProjects={projectData} />} />
+          <Route index element={<Home featuredProjects={featuredProjects} />} />
           <Route path="about" element={<About />} />
           <Route path="projects" element={<Projects />} />
           <Route path="projects/:projectId" />
