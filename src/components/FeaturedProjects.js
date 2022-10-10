@@ -6,6 +6,7 @@ import { SPACING_PX } from "../utility/style-constants";
 import getVimeoEmbed from "../utility/get-vimeo-embed";
 
 import {
+  getProjectId,
   getProjectTitle,
   getProjectSubtitle,
   getProjectTextEl,
@@ -64,7 +65,7 @@ const SlideContainer = styled.div`
   max-width: 800px;
 `;
 
-function SimpleSlider({ slides = [] }) {
+function SimpleSlider({ slides = [], projectId }) {
   console.log(slides);
   const settings = {
     dots: true,
@@ -76,7 +77,7 @@ function SimpleSlider({ slides = [] }) {
 
   return (
     <div>
-      <Slider {...settings}>
+      <Slider {...settings} key={projectId}>
         {slides.map((slide) => (
           <SlideContainer>{slide}</SlideContainer>
         ))}
@@ -101,6 +102,8 @@ export function FeaturedProject({ project }) {
       });
     }
   }, [project]);
+
+  const projectId = getProjectId(project);
 
   const imageURLs = getProjectImageURLs(project);
   console.log("imageURLs", imageURLs);
@@ -143,7 +146,7 @@ export function FeaturedProject({ project }) {
           />
         )}
         <VisualContentElement>
-          {graphics && <SimpleSlider slides={graphics} />}
+          {graphics && <SimpleSlider slides={graphics} projectId={projectId} />}
         </VisualContentElement>
       </VisualContent>
       <VisualContent>
