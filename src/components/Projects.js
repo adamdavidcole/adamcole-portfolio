@@ -56,6 +56,7 @@ const ProjectDetailsContainer = styled.div`
   top: ${(props) => (props.isDetailsExpanded ? "0" : "100%")};
   transition: top ${animationSpeed} ease;
   background: white;
+  opacity: 1;
 `;
 
 const ProjectDetailsNavigation = styled.div`
@@ -65,26 +66,9 @@ const ProjectDetailsNavigation = styled.div`
 
 const ProjectContentContainer = styled.div`
   margin-top: 40px;
-  left: 0;
-  transition: ${(props) =>
-    props.isAnimatingProjectSlider ? `left ${animationSpeed} ease` : "none"};
   background: white;
-`;
-
-const PrevProjectContentContainer = styled(ProjectContentContainer)`
-  left: ${(props) => (props.show ? "0" : "-100%")};
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 1;
-`;
-
-const NextProjectContentContainer = styled(ProjectContentContainer)`
-  left: ${(props) => (props.show ? "0" : "100%")};
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 1;
+  opacity: ${(props) => (props.fadeOut ? "0" : "1")};
+  transition: opacity ${animationSpeed} ease;
 `;
 
 function ProjectCard({ project }) {
@@ -129,22 +113,30 @@ export default function Projects({ projects }) {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(!!projectId);
-  const [showPreviousProject, setShowPreviousProject] = useState(false);
-  const [isAnimatingProjectSlider, setIsAnimatingProjectSlider] =
-    useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+  useState(false);
 
   function onClose() {
-    navigate("/projects");
+    setIsDetailsExpanded(false);
+    setTimeout(() => {
+      //   setIsAnimatingProjectSlider(false);
+      navigate(`/projects`);
+    }, 250);
   }
 
   function goPreviousProject() {
-    setShowPreviousProject(true);
-    setIsAnimatingProjectSlider(true);
+    setFadeOut(true);
     setTimeout(() => {
-      setIsAnimatingProjectSlider(false);
-
       const prevProjectURL = getProjectURL(prevProject);
       navigate(`/projects/${prevProjectURL}`);
+    }, 250);
+  }
+
+  function goNextProject() {
+    setFadeOut(true);
+    setTimeout(() => {
+      const nextProjectURL = getProjectURL(nextProject);
+      navigate(`/projects/${nextProjectURL}`);
     }, 250);
   }
 
@@ -157,12 +149,21 @@ export default function Projects({ projects }) {
 
   console.log("expandedProject", expandedProject);
   useEffect(() => {
-    setShowPreviousProject(false);
     setIsDetailsExpanded(!!projectId);
+    setTimeout(() => {
+      setFadeOut(false);
+    }, 0);
   }, [projectId]);
 
   return (
     <ProjectsPageContainer>
+      {isDetailsExpanded && (
+        <ProjectDetailsNavigation>
+          <button onClick={() => goPreviousProject()}>Previous Project</button>{" "}
+          <button onClick={() => onClose()}>Close</button>{" "}
+          <button onClick={() => goNextProject()}>Next Project</button>
+        </ProjectDetailsNavigation>
+      )}
       <ProjectsGrid>
         {projects?.map((project) => (
           <ProjectCard key={`${getProjectId(project)}-1`} project={project} />
@@ -175,38 +176,9 @@ export default function Projects({ projects }) {
         ))}
       </ProjectsGrid>
       <ProjectDetailsContainer isDetailsExpanded={isDetailsExpanded}>
-        <ProjectDetailsNavigation>
-          <button onClick={() => goPreviousProject()}>Previous Project</button>{" "}
-          |<button onClick={() => onClose()}>Close</button> |
-          <Link to={`/projects/${getProjectURL(nextProject)}`}>
-            Next Project
-          </Link>
-        </ProjectDetailsNavigation>
-
-        <PrevProjectContentContainer
-          show={showPreviousProject}
-          isAnimatingProjectSlider={isAnimatingProjectSlider}
-        >
-          {prevProject && <FeaturedProject project={prevProject} />}
-        </PrevProjectContentContainer>
-
-        <ProjectContentContainer>
-          {expandedProject && (
-            <FeaturedProject
-              project={expandedProject}
-              isAnimatingProjectSlider={isAnimatingProjectSlider}
-            />
-          )}
+        <ProjectContentContainer fadeOut={fadeOut}>
+          <FeaturedProject project={expandedProject} />
         </ProjectContentContainer>
-
-        <NextProjectContentContainer>
-          {nextProject && (
-            <FeaturedProject
-              project={nextProject}
-              isAnimatingProjectSlider={isAnimatingProjectSlider}
-            />
-          )}
-        </NextProjectContentContainer>
       </ProjectDetailsContainer>
     </ProjectsPageContainer>
   );

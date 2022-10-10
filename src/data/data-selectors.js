@@ -107,6 +107,10 @@ export function getProjectThumbnailVideoURL(project) {
   return getGraphicURL(projectThumbnailVideo);
 }
 
+export function getVimeoThumbnailURL(project) {
+  return project?.vimeoThumbnailURL;
+}
+
 export function getProjectIsFeatured(project) {
   return project?.isFeatured;
 }

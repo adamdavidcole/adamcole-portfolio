@@ -4,6 +4,7 @@ import Slider from "react-slick";
 
 import { SPACING_PX } from "../utility/style-constants";
 import getVimeoEmbed from "../utility/get-vimeo-embed";
+import { VimeoEmbed } from "./VimeoEmbed";
 
 import {
   getProjectId,
@@ -60,6 +61,12 @@ const DescriptionBody = styled(Body)`
   margin-top: 2rem;
 `;
 
+const SliderContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+`;
+
 const SlideContainer = styled.div`
   max-height: 450px;
   max-width: 800px;
@@ -73,16 +80,17 @@ function SimpleSlider({ slides = [], projectId }) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    lazyLoad: "progressive",
   };
 
   return (
-    <div>
+    <SliderContainer>
       <Slider {...settings} key={projectId}>
         {slides.map((slide) => (
           <SlideContainer>{slide}</SlideContainer>
         ))}
       </Slider>
-    </div>
+    </SliderContainer>
   );
 }
 
@@ -140,11 +148,14 @@ export function FeaturedProject({ project }) {
   return (
     <FeaturedProjectContainer>
       <VisualContent>
-        {videoEmbed && (
+        <VisualContentElement>
+          <VimeoEmbed project={project} />
+        </VisualContentElement>
+        {/* {videoEmbed && (
           <VisualContentElement
             dangerouslySetInnerHTML={{ __html: videoEmbed }}
           />
-        )}
+        )} */}
         <VisualContentElement>
           {graphics && <SimpleSlider slides={graphics} projectId={projectId} />}
         </VisualContentElement>
