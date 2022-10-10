@@ -1,4 +1,6 @@
 import { PortableText } from "@portabletext/react";
+import { BrowserRouter as Link } from "react-router-dom";
+
 // import { PROJECT_ID, DATASET } from "./data-constants";
 import dataClient from "./data-client";
 import imageUrlBuilder from "@sanity/image-url";
@@ -25,6 +27,16 @@ export function getGraphicURL(file) {
 
 export function getImageUrl(image) {
   return urlFor(image).width(1200).url();
+}
+
+export function getProjectId(project) {
+  return project?._id;
+}
+
+export function getProjectURL(project) {
+  const projectTitle = getProjectTitle(project);
+  let url = projectTitle?.toLowerCase()?.replace(/ /g, "-").replace(/[,]/g, "");
+  return url;
 }
 
 export function getProjectTitle(project) {

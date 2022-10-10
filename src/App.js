@@ -1,5 +1,7 @@
 import * as React from "react";
 import { Routes, Route, Outlet, Link, useParams } from "react-router-dom";
+import styled from "styled-components";
+
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import Projects from "./components/Projects";
@@ -9,6 +11,11 @@ import {
   getSortedFeaturedProjects,
   getSortedProjects,
 } from "./data/data-selectors";
+
+const AppContainer = styled(Route)`
+  display: flex;
+  flex-direction: column;
+`;
 
 export default function App() {
   const [projectData, setProjectData] = useState([]);
@@ -31,8 +38,11 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home featuredProjects={featuredProjects} />} />
           <Route path="about" element={<About />} />
+          <Route
+            path="projects/:projectId"
+            element={<Projects projects={projects} />}
+          />
           <Route path="projects" element={<Projects projects={projects} />} />
-          <Route path="projects/:projectId" />
 
           {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit

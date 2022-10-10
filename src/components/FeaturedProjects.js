@@ -85,7 +85,7 @@ function SimpleSlider({ slides = [] }) {
   );
 }
 
-function FeaturedProject({ project }) {
+export function FeaturedProject({ project }) {
   const [videoEmbed, setVideoEmbed] = useState();
 
   useEffect(() => {

@@ -1,11 +1,15 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-
+import { useState } from "react";
 import {
   getProjectThumbnailImageURL,
   getProjectId,
-  getProjectURL,
+  getProjectTitle,
+  getProjectSubtitle,
+  getProjectTextEl,
+  getProjectKeywords,
+  getProjectGraphicURLs,
+  getProjectImageURLs,
+  getProjectVideoLinks,
 } from "../data/data-selectors";
 import { FeaturedProject } from "./FeaturedProjects";
 
@@ -19,18 +23,16 @@ const ProjectsGridContainer = styled.div`
 `;
 
 const ProjectsContentContainer = styled.div`
-  width: 100%;
-  overflow: hidden;
   position: relative;
 `;
 
-// const ProjectDetailsPlaceholder = styled.div`
-//   flex-shrink: 0;
-//   width: ${(props) =>
-//     props.isDetailsExpanded ? `${expansionWidth}vw` : "0vw"};
-//   transition: width ${animationSpeed} ease;
-//   border: 1px solid;
-// `;
+const ProjectDetailsPlaceholder = styled.div`
+  flex-shrink: 0;
+  width: ${(props) =>
+    props.isDetailsExpanded ? `${expansionWidth}vw` : "0vw"};
+  transition: width ${animationSpeed} ease;
+  border: 1px solid;
+`;
 
 const ProjectsGrid = styled.div`
   flex-shrink: 1;
@@ -43,6 +45,10 @@ const ProjectsGrid = styled.div`
   gap: 2rem;
 
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+
+  ${(props) =>
+    props.isDetailsExpanded &&
+    "grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));"}
 `;
 
 const ProjectCardContainer = styled.div`
@@ -56,42 +62,33 @@ const ProjectCardImg = styled.img`
 const ProjectDetailsContainer = styled.div`
   position: absolute;
   top: 0;
-  width: 100vw;
-  left: ${(props) => (props.isDetailsExpanded ? "0" : "100%")};
+  width: ${expansionWidth}vw;
+  left: ${(props) =>
+    props.isDetailsExpanded ? `${100 - expansionWidth}%` : "100%"};
   transition: left ${animationSpeed} ease;
-  background: white;
 `;
 
 function ProjectCard({ project }) {
-  const projectURL = getProjectURL(project);
-  console.log("projectURL", projectURL);
-
   const thumbnailImageURL = getProjectThumbnailImageURL(project);
   return (
     <ProjectCardContainer>
-      <Link to={`/projects/${projectURL}`}>
-        <ProjectCardImg src={thumbnailImageURL} alt="" />
-      </Link>
+      <ProjectCardImg src={thumbnailImageURL} alt="" />
     </ProjectCardContainer>
   );
 }
 
-function getExpandedProject(projects, projectId) {
-  return projects.find((project) => getProjectURL(project) === projectId);
-}
-
 export default function Projects({ projects }) {
-  const { projectId } = useParams();
-  const [isDetailsExpanded, setIsDetailsExpanded] = useState(!!projectId);
-  const expandedProject =
-    isDetailsExpanded && getExpandedProject(projects, projectId);
-  console.log("expandedProject", expandedProject);
-  useEffect(() => {
-    setIsDetailsExpanded(!!projectId);
-  }, [projectId]);
+  const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
 
   return (
     <div>
+      <H3
+        onClick={() => {
+          setIsDetailsExpanded(!isDetailsExpanded);
+        }}
+      >
+        Works
+      </H3>
       <ProjectsContentContainer>
         <ProjectsGridContainer>
           <ProjectsGrid>
@@ -114,10 +111,12 @@ export default function Projects({ projects }) {
               />
             ))}
           </ProjectsGrid>
+          <ProjectDetailsPlaceholder
+            isDetailsExpanded={isDetailsExpanded}
+          ></ProjectDetailsPlaceholder>
         </ProjectsGridContainer>
         <ProjectDetailsContainer isDetailsExpanded={isDetailsExpanded}>
-          <Link to="/projects">X</Link>
-          <FeaturedProject project={expandedProject} />
+          <FeaturedProject project={projects[0]} />
         </ProjectDetailsContainer>
       </ProjectsContentContainer>
     </div>
