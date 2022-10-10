@@ -13,6 +13,8 @@ import {
   getProjectGraphicURLs,
   getProjectImageURLs,
   getProjectVideoLinks,
+  getProjectThumbnailImageURL,
+  getProjectThumbnailVideoURL,
 } from "../data/data-selectors";
 import { H2, H3, SerifH3, H4, Body } from "../utility/typography";
 

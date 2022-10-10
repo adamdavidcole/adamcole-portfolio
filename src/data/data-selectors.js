@@ -76,12 +76,30 @@ export function getProjectVideoLinks(project) {
   return project?.videoLinks;
 }
 
+export function getProjectThumbnailImage(project) {
+  return project?.thumbnailImage;
+}
+
+export function getProjectThumbnailImageURL(project) {
+  // TODO: get smaller image
+  const projectThumbnailImage = getProjectThumbnailImage(project);
+  return getImageUrl(projectThumbnailImage);
+}
+
+export function getProjectThumbnailVideo(project) {
+  return project?.thumbnailVideo;
+}
+
+export function getProjectThumbnailVideoURL(project) {
+  const projectThumbnailVideo = getProjectThumbnailVideo(project);
+  return getGraphicURL(projectThumbnailVideo);
+}
+
 export function getProjectIsFeatured(project) {
   return project?.isFeatured;
 }
 
 export function getProjectFeaturedSortOrder(project) {
-  console.log("project?.featuredSortOrder", project?.featuredSortOrder);
   return project?.featuredSortOrder;
 }
 
@@ -97,4 +115,12 @@ export function getSortedFeaturedProjects(data) {
         getProjectFeaturedSortOrder(projectA) -
         getProjectFeaturedSortOrder(projectB)
     );
+}
+
+export function getSortedProjects(data) {
+  return data?.sort((projectA, projectB) => {
+    const dateA = getProjectDate(projectA);
+    const dateB = getProjectDate(projectB);
+    return dateB.localeCompare(dateA);
+  });
 }

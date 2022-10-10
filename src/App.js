@@ -2,9 +2,13 @@ import * as React from "react";
 import { Routes, Route, Outlet, Link, useParams } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
+import Projects from "./components/Projects";
 import fetchData from "./data/fetch-data";
 import { useState, useEffect } from "react";
-import { getSortedFeaturedProjects } from "./data/data-selectors";
+import {
+  getSortedFeaturedProjects,
+  getSortedProjects,
+} from "./data/data-selectors";
 
 export default function App() {
   const [projectData, setProjectData] = useState([]);
@@ -16,7 +20,7 @@ export default function App() {
   }, []);
 
   const featuredProjects = getSortedFeaturedProjects(projectData);
-  console.log(featuredProjects);
+  const projects = getSortedProjects(projectData);
 
   return (
     <div>
@@ -27,7 +31,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home featuredProjects={featuredProjects} />} />
           <Route path="about" element={<About />} />
-          <Route path="projects" element={<Projects />} />
+          <Route path="projects" element={<Projects projects={projects} />} />
           <Route path="projects/:projectId" />
 
           {/* Using path="*"" means "match anything", so this route
@@ -60,14 +64,6 @@ function About() {
   return (
     <div>
       <h2>About</h2>
-    </div>
-  );
-}
-
-function Projects() {
-  return (
-    <div>
-      <h2>Projects</h2>
     </div>
   );
 }

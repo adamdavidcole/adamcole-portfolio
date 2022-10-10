@@ -7,7 +7,7 @@ export default function fetchData() {
   return dataClient
     .fetch(QUERY)
     .then((result) => {
-      console.log("result", result);
+      console.log("Fetched data:", result);
       return result;
     })
     .catch((err) => console.error(err));
