@@ -8,6 +8,7 @@ import {
   getProjectURL,
 } from "../data/data-selectors";
 import { FeaturedProject } from "./FeaturedProjects";
+import ProjectThumbnail from "./ProjectThumbnail";
 
 import { H3, H2 } from "../utility/typography";
 
@@ -43,10 +44,6 @@ const ProjectCardContainer = styled.div`
   width: 100%;
 `;
 
-const ProjectCardImg = styled.img`
-  width: 100%;
-`;
-
 const ProjectDetailsContainer = styled.div`
   position: absolute;
   top: 0;
@@ -73,13 +70,11 @@ const ProjectContentContainer = styled.div`
 
 function ProjectCard({ project }) {
   const projectURL = getProjectURL(project);
-  console.log("projectURL", projectURL);
 
-  const thumbnailImageURL = getProjectThumbnailImageURL(project);
   return (
     <ProjectCardContainer>
       <Link to={`/projects/${projectURL}`}>
-        <ProjectCardImg src={thumbnailImageURL} alt="" />
+        <ProjectThumbnail project={project} />
       </Link>
     </ProjectCardContainer>
   );
