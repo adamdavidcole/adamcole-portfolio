@@ -104,6 +104,8 @@ export function getProjectThumbnailVideo(project) {
 
 export function getProjectThumbnailVideoURL(project) {
   const projectThumbnailVideo = getProjectThumbnailVideo(project);
+  if (!projectThumbnailVideo) return;
+
   return getGraphicURL(projectThumbnailVideo);
 }
 

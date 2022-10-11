@@ -108,21 +108,20 @@ const SlideContainer = styled.div`
 `;
 
 function SimpleSlider({ slides = [], projectId }) {
-  console.log(slides);
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    lazyLoad: "progressive",
+    lazyLoad: "ondemand",
   };
 
   return (
     <SliderContainer>
       <Slider {...settings} key={projectId}>
-        {slides.map((slide) => (
-          <SlideContainer>{slide}</SlideContainer>
+        {slides.map((slide, i) => (
+          <SlideContainer key={i}>{slide}</SlideContainer>
         ))}
       </Slider>
     </SliderContainer>
@@ -134,13 +133,10 @@ export function FeaturedProject({ project }) {
 
   useEffect(() => {
     const videoLinks = getProjectVideoLinks(project);
-    console.log("videoLinks", videoLinks);
     if (videoLinks?.length > 0) {
       const firstVideoLink = videoLinks[0];
-      console.log("fetch VIDEO LINKS", firstVideoLink);
 
       getVimeoEmbed({ url: firstVideoLink }).then((response) => {
-        console.log("yoo", response);
         setVideoEmbed(response.html);
       });
     }
@@ -148,31 +144,12 @@ export function FeaturedProject({ project }) {
 
   const projectId = getProjectId(project);
 
-  const imageURLs = getProjectImageURLs(project);
-  console.log("imageURLs", imageURLs);
-  const images = imageURLs?.map((imageURL) => (
-    <VisualContentImg key={imageURL} src={imageURL} alt={""} />
-  ));
-
   const graphicURLs = getProjectGraphicURLs(project);
-  console.log(graphicURLs);
-
-  const videos = graphicURLs?.map((videoURL) => (
-    <VisualContentVideo autoPlay muted preload loop playsInline>
-      <source src={videoURL} type="video/mp4" />
-    </VisualContentVideo>
-  ));
 
   const graphics = graphicURLs?.map((graphicURL) => {
-    console.log(
-      "graphicURL: ",
-      graphicURL,
-      'graphicURL.includes(".mp4")',
-      graphicURL.includes(".mp4")
-    );
     if (graphicURL.includes(".mp4"))
       return (
-        <VisualContentVideo autoPlay muted preload loop playsInline>
+        <VisualContentVideo autoPlay playsInline muted loop>
           <source src={graphicURL} type="video/mp4" />
         </VisualContentVideo>
       );

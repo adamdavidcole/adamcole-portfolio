@@ -34,7 +34,6 @@ export default function Banner() {
           autoPlay
           playsInline
           muted
-          preload
           loop
           ref={videoRefA}
           onCanPlay={() => setPlayBack(videoRefA)}

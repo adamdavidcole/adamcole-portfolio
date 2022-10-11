@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
-  getProjectThumbnailImageURL,
   getProjectVideoLinks,
   getVimeoThumbnailURL,
 } from "../data/data-selectors";
@@ -54,8 +53,6 @@ export function VimeoEmbed({ project }) {
   const [embedHtml, setEmbedHtml] = useState();
   const [playVideo, setPlayVideo] = useState(false);
 
-  console.log("playVideo", playVideo);
-
   useEffect(() => {
     if (!project) return;
 
@@ -64,7 +61,6 @@ export function VimeoEmbed({ project }) {
 
     if (videoLinks?.length > 0) {
       const firstVideoLink = videoLinks[0];
-      console.log("fetch VIDEO LINKS", firstVideoLink);
 
       getVimeoEmbed({ url: firstVideoLink, autoplay: true }).then(
         (response) => {

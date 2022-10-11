@@ -41,7 +41,6 @@ export default function ProjectThumbnail({ project }) {
         <ProjectThumbnailVideo
           autoPlay
           muted
-          preload
           loop
           playsInline
           isLoaded={videoLoaded}
