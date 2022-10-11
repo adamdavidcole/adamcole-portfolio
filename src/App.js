@@ -21,6 +21,10 @@ const GlobalStyle = createGlobalStyle`
       font-size: 100%;
     }
   }
+
+  #root {
+    overflow-x: hidden;
+  }
 `;
 
 const LayoutContainer = styled.div`

@@ -18,6 +18,7 @@ const List = styled.ul`
   display: flex;
   flex-align: row;
   margin: 0;
+  //   padding: 0;
   font-size: inherit;
 `;
 
@@ -41,6 +42,7 @@ const Logo = styled(H3)`
   letter-spacing: 4px;
   word-spacing: 2px;
   font-weight: 900;
+  flex-shrink: 0;
 
   @media ${device.tablet} {
     letter-spacing: 8px;
