@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { SPACING_PX } from "../utility/style-constants";
+import { SPACING_PX, margins, device } from "../utility/style-constants";
 import { H1, H2, H3, H4 } from "../utility/typography";
 
 const Nav = styled.nav`
   display: flex;
   flex-align: row;
   justify-content: space-between;
-  margin: 0 ${SPACING_PX[200]};
+  margin: 0 ${margins.small};
+
+  @media ${device.tablet} {
+    margin: 0 ${margins.large};
+  }
 `;
 
 const List = styled.ul`
@@ -20,7 +24,12 @@ const List = styled.ul`
 const ListEl = styled.li`
   list-style-type: none;
   font-size: inherit;
-  margin-left: ${SPACING_PX[300]};
+
+  margin-left: ${margins.small};
+
+  @media ${device.tablet} {
+    margin-left: ${margins.large};
+  }
 `;
 
 const NavLink = styled(Link)`
@@ -29,9 +38,15 @@ const NavLink = styled(Link)`
 `;
 
 const Logo = styled(H3)`
-  letter-spacing: 16px;
-  word-spacing: 8px;
+  letter-spacing: 4px;
+  word-spacing: 2px;
   font-weight: 900;
+
+  @media ${device.tablet} {
+    letter-spacing: 8px;
+    word-spacing: 4px;
+    font-weight: 900;
+  }
 `;
 
 export default function Navigation() {

@@ -1,13 +1,18 @@
 import styled from "styled-components";
 import { H3 } from "../utility/typography";
+import { device, margins } from "../utility/style-constants";
 
 const BannerSubtitleContainer = styled.span`
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-bottom: 1px solid #030303;
-  margin: 0 40px 40px;
-  padding-bottom: 20px;
+  margin: 0 ${margins.small} ${margins.small};
+  padding-bottom: ${margins.medium};
+
+  @media ${device.tablet} {
+    margin: 0 ${margins.large} ${margins.large};
+  }
 `;
 
 const dividerFontSize = 60;

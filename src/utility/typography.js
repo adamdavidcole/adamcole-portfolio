@@ -1,6 +1,19 @@
 import styled from "styled-components";
+import { device } from "./style-constants";
+
+export const RootFont = styled.div`
+  font-size: 80%;
+
+  @media ${device.tablet} {
+    font-size: 100%;
+  }
+`;
 
 export const H1 = styled.h1`
+  font-size: 4rem;
+  line-height: 4.98rem;
+  margin-bottom: 1.743rem;
+
   font-size: 4rem;
   line-height: 4.98rem;
   margin-bottom: 1.743rem;

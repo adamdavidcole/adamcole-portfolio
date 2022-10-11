@@ -10,6 +10,7 @@ import {
 import { FeaturedProject } from "./FeaturedProjects";
 import ProjectThumbnail from "./ProjectThumbnail";
 
+import { device, margins } from "../utility/style-constants";
 import { H3, H2 } from "../utility/typography";
 
 const animationSpeed = "0.25s";
@@ -33,11 +34,16 @@ const ProjectsGrid = styled.div`
   min-width: 0;
 
   max-width: 1600px;
-  margin: 0 auto;
   display: grid;
   gap: 2rem;
 
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+
+  margin: 0 ${margins.small};
+
+  @media ${device.tablet} {
+    margin: 0 ${margins.large};
+  }
 `;
 
 const ProjectCardContainer = styled.div`
@@ -59,6 +65,12 @@ const ProjectDetailsContainer = styled.div`
 const ProjectDetailsNavigation = styled.div`
   position: fixed;
   z-index: 1;
+
+  margin: 0 ${margins.small};
+
+  @media ${device.tablet} {
+    margin: 0 ${margins.large};
+  }
 `;
 
 const ProjectContentContainer = styled.div`

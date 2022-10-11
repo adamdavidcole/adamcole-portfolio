@@ -19,6 +19,7 @@ import {
   getProjectThumbnailVideoURL,
 } from "../data/data-selectors";
 import { H2, H3, SerifH3, H4, Body } from "../utility/typography";
+import { device, margins } from "../utility/style-constants";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -31,15 +32,47 @@ const FeaturedProjectContainer = styled.div`
 
 const VisualContent = styled.div`
   display: flex;
-  flex-align: row;
-  align-items: flex-start;
-  justify-content: space-between;
+
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: ${margins.large};
+
+  @media ${device.tablet} {
+    margin-bottom: 0;
+    margin: 0 ${margins.large};
+
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+`;
+
+const VisualContentText = styled(VisualContent)`
+  margin: 0 ${margins.small};
+
+  @media ${device.tablet} {
+    margin: 0 ${margins.large};
+  }
 `;
 
 const VisualContentElement = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
-  width: 48%;
+  width: 100%;
+
+  @media ${device.tablet} {
+    width: 48%;
+    margin-bottom: 40px;
+  }
+`;
+
+const VisualContentElementVideo = styled(VisualContentElement)`
+  margin-bottom: ${margins.medium};
+
+  @media ${device.tablet} {
+    margin-bottom: 0;
+  }
 `;
 
 const VisualContentImg = styled.img`
@@ -58,7 +91,9 @@ const VisualContentVideo = styled.video`
 `;
 
 const DescriptionBody = styled(Body)`
-  margin-top: 2rem;
+  @media ${device.tablet} {
+    margin-top: ${margins.large};
+  }
 `;
 
 const SliderContainer = styled.div`
@@ -148,19 +183,14 @@ export function FeaturedProject({ project }) {
   return (
     <FeaturedProjectContainer>
       <VisualContent>
-        <VisualContentElement>
+        <VisualContentElementVideo>
           <VimeoEmbed project={project} />
-        </VisualContentElement>
-        {/* {videoEmbed && (
-          <VisualContentElement
-            dangerouslySetInnerHTML={{ __html: videoEmbed }}
-          />
-        )} */}
+        </VisualContentElementVideo>
         <VisualContentElement>
           {graphics && <SimpleSlider slides={graphics} projectId={projectId} />}
         </VisualContentElement>
       </VisualContent>
-      <VisualContent>
+      <VisualContentText>
         <VisualContentElement>
           <SerifH3>{getProjectTitle(project)}</SerifH3>
           <H4 fontWeight={400}>{getProjectSubtitle(project)}</H4>
@@ -173,19 +203,27 @@ export function FeaturedProject({ project }) {
             <strong>Tools:</strong> {getProjectKeywords(project)?.join(", ")}
           </div>
         </VisualContentElement>
-      </VisualContent>
+      </VisualContentText>
     </FeaturedProjectContainer>
   );
 }
 
 const FeaturedProjectsContainer = styled.div`
-  margin: 0 ${SPACING_PX[250]};
+  //   margin: 0 ${SPACING_PX[250]};
+`;
+
+const FeaturedProjectsTitle = styled(H4)`
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  word-spacing: 2px;
 `;
 
 export default function FeaturedProjects({ featuredProjects = [] } = {}) {
   return (
     <FeaturedProjectsContainer>
-      <H4>Selected Works</H4>
+      <VisualContentText>
+        <FeaturedProjectsTitle>Selected Works</FeaturedProjectsTitle>
+      </VisualContentText>
       {featuredProjects.map((project) => (
         <FeaturedProject key={project._id} project={project} />
       ))}

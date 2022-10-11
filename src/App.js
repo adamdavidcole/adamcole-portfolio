@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Routes, Route, Outlet, Link, useLocation } from "react-router-dom";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
+import { device } from "./utility/style-constants";
 
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
@@ -11,6 +12,16 @@ import {
   getSortedFeaturedProjects,
   getSortedProjects,
 } from "./data/data-selectors";
+
+const GlobalStyle = createGlobalStyle`
+  :root {
+    font-size: 80%;
+
+    @media ${device.tablet} {
+      font-size: 100%;
+    }
+  }
+`;
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -32,6 +43,7 @@ export default function App() {
 
   return (
     <div>
+      <GlobalStyle />
       {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
             parent route elements. See the note about <Outlet> below. */}
