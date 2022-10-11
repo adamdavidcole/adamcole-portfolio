@@ -19,6 +19,7 @@ const expansionWidth = 80;
 const ProjectsPageContainer = styled.div`
   position: relative;
   overflow: hidden;
+  height: 100%;
 `;
 
 const ProjectsGridContainer = styled.div`
@@ -27,7 +28,7 @@ const ProjectsGridContainer = styled.div`
 
 const ProjectsGrid = styled.div`
   overflow: scroll;
-  height: 100%;
+  max-height: 100%;
 
   flex-shrink: 1;
   flex-grow: 1;
@@ -38,6 +39,7 @@ const ProjectsGrid = styled.div`
   gap: 2rem;
 
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-rows: min-content;
 
   margin: 0 ${margins.small};
 
@@ -173,13 +175,7 @@ export default function Projects({ projects }) {
       )}
       <ProjectsGrid>
         {projects?.map((project) => (
-          <ProjectCard key={`${getProjectId(project)}-1`} project={project} />
-        ))}
-        {projects?.map((project) => (
-          <ProjectCard key={`${getProjectId(project)}-2`} project={project} />
-        ))}
-        {projects?.map((project) => (
-          <ProjectCard key={`${getProjectId(project)}-3`} project={project} />
+          <ProjectCard key={`${getProjectId(project)}`} project={project} />
         ))}
       </ProjectsGrid>
       <ProjectDetailsContainer isDetailsExpanded={isDetailsExpanded}>

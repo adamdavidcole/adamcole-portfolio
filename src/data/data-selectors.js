@@ -25,8 +25,13 @@ export function getGraphicURL(file) {
   return `https://cdn.sanity.io/files/${PROJECT_ID}/${DATASET}/${id}.${extension}`;
 }
 
-export function getImageUrl(image) {
-  return urlFor(image).width(1200).url();
+export function getImageUrl(
+  image,
+  { getHD = false, width = 800, height = 450, format = "png" } = {}
+) {
+  if (getHD) return urlFor(image).url();
+
+  return urlFor(image).width(width).height(height).format(format).url();
 }
 
 export function getProjectId(project) {
@@ -72,20 +77,63 @@ export function getProjectImageURLs(project) {
   return images?.map((image) => getImageUrl(image));
 }
 
-export function getProjectGraphics(project) {
+export function getProjectGraphicsOld(project) {
   // TODO: maybe convert to URLs?
   return project?.graphics;
 }
 
-export function getProjectGraphicURLs(project) {
+export function getProjectGraphicsURLsOld(project) {
   // TODO: maybe convert to URLs?
-  const graphics = getProjectGraphics(project);
+  const graphics = getProjectGraphicsOld(project);
   return graphics?.map((graphic) => getGraphicURL(graphic));
 }
 
 export function getProjectVideoLinks(project) {
   // TODO: maybe convert to embeds?
   return project?.videoLinks;
+}
+
+export function getProjectGraphicVideo(graphic, { getHD = false } = {}) {
+  // TODO: maybe convert to URLs?
+  return getHD ? graphic?.videoHD : graphic?.videoMedium;
+}
+
+export function getProjectGraphicImage(graphic) {
+  // TODO: maybe convert to URLs?
+  return graphic?.image;
+}
+
+export function getProjectGraphics(project) {
+  // TODO: maybe convert to URLs?
+  return project?.graphics2;
+}
+
+export function getProjectGraphicsURLs(
+  project,
+  { getHD = false, width = 800, height = 450 } = {}
+) {
+  // DEPRECATED API
+  const graphicURLsOld = getProjectGraphicsURLsOld(project);
+  if (graphicURLsOld && graphicURLsOld.length) {
+    return graphicURLsOld;
+  }
+
+  // NEW API with option for HD graphics
+  const graphics = getProjectGraphics(project);
+
+  return graphics
+    ?.map((graphic) => {
+      const graphicVideo = getProjectGraphicVideo(graphic, { getHD });
+      const graphicImage = getProjectGraphicImage(graphic);
+
+      if (graphicVideo) return getGraphicURL(graphicVideo);
+      if (graphicImage) {
+        return getImageUrl(graphicImage, { getHD, width, height });
+      }
+
+      return null;
+    })
+    .filter((url) => url != null);
 }
 
 export function getProjectThumbnailImage(project) {
@@ -141,4 +189,14 @@ export function getSortedProjects(data) {
     const dateB = getProjectDate(projectB);
     return dateB.localeCompare(dateA);
   });
+}
+
+export function projectHasVideoLinks(project) {
+  const videoLinks = getProjectVideoLinks(project);
+  return !!(videoLinks && videoLinks.length > 0);
+}
+
+export function projectHasGraphics(project) {
+  const graphics = getProjectGraphicsURLs(project);
+  return !!(graphics && graphics.length > 0);
 }

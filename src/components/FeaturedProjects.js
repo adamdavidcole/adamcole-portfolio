@@ -12,11 +12,10 @@ import {
   getProjectSubtitle,
   getProjectTextEl,
   getProjectKeywords,
-  getProjectGraphicURLs,
-  getProjectImageURLs,
+  getProjectGraphicsURLs,
   getProjectVideoLinks,
-  getProjectThumbnailImageURL,
-  getProjectThumbnailVideoURL,
+  projectHasGraphics,
+  projectHasVideoLinks,
 } from "../data/data-selectors";
 import { H2, H3, SerifH3, H4, Body } from "../utility/typography";
 import { device, margins } from "../utility/style-constants";
@@ -42,9 +41,10 @@ const VisualContent = styled.div`
     margin-bottom: 0;
     margin: 0 ${margins.large};
 
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
+    flex-direction: ${(props) => (props.singleColumn ? "column" : "row")};
+    align-items: ${(props) => (props.singleColumn ? "center" : "flex-start")};
+    justify-content: ${(props) =>
+      props.singleColumn ? "center" : "space-between"};
   }
 `;
 
@@ -144,7 +144,7 @@ export function FeaturedProject({ project }) {
 
   const projectId = getProjectId(project);
 
-  const graphicURLs = getProjectGraphicURLs(project);
+  const graphicURLs = getProjectGraphicsURLs(project);
 
   const graphics = graphicURLs?.map((graphicURL) => {
     if (graphicURL.includes(".mp4"))
@@ -157,29 +157,49 @@ export function FeaturedProject({ project }) {
     return <VisualContentImg src={graphicURL} alt={""} />;
   });
 
+  const hasVideoLinks = projectHasVideoLinks(project);
+  const hasGraphics = projectHasGraphics(project);
+  console.log("hasGraphics", hasGraphics);
+  const singleColumnVisualContent =
+    (hasVideoLinks && !hasGraphics) || (!hasVideoLinks && hasGraphics);
+
+  const projectTiles = (
+    <>
+      <SerifH3>{getProjectTitle(project)}</SerifH3>
+      <H4 fontWeight={400}>{getProjectSubtitle(project)}</H4>
+    </>
+  );
+
+  const projectDescriptions = (
+    <>
+      <DescriptionBody>
+        <div>{getProjectTextEl(project)}</div>
+      </DescriptionBody>
+      <div>
+        <strong>Tools:</strong> {getProjectKeywords(project)?.join(", ")}
+      </div>
+    </>
+  );
+
   return (
     <FeaturedProjectContainer>
-      <VisualContent>
-        <VisualContentElementVideo>
-          <VimeoEmbed project={project} />
-        </VisualContentElementVideo>
-        <VisualContentElement>
-          {graphics && <SimpleSlider slides={graphics} projectId={projectId} />}
-        </VisualContentElement>
+      <VisualContent singleColumn={singleColumnVisualContent}>
+        {hasVideoLinks && (
+          <VisualContentElementVideo>
+            <VimeoEmbed project={project} />
+          </VisualContentElementVideo>
+        )}
+        {hasGraphics && (
+          <VisualContentElement>
+            {graphics && (
+              <SimpleSlider slides={graphics} projectId={projectId} />
+            )}
+          </VisualContentElement>
+        )}
       </VisualContent>
-      <VisualContentText>
-        <VisualContentElement>
-          <SerifH3>{getProjectTitle(project)}</SerifH3>
-          <H4 fontWeight={400}>{getProjectSubtitle(project)}</H4>
-        </VisualContentElement>
-        <VisualContentElement>
-          <DescriptionBody>
-            <div>{getProjectTextEl(project)}</div>
-          </DescriptionBody>
-          <div>
-            <strong>Tools:</strong> {getProjectKeywords(project)?.join(", ")}
-          </div>
-        </VisualContentElement>
+      <VisualContentText singleColumn={singleColumnVisualContent}>
+        <VisualContentElement>{projectTiles}</VisualContentElement>
+        <VisualContentElement>{projectDescriptions}</VisualContentElement>
       </VisualContentText>
     </FeaturedProjectContainer>
   );
