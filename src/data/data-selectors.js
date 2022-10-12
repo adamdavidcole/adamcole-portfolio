@@ -103,6 +103,11 @@ export function getProjectGraphicImage(graphic) {
   return graphic?.image;
 }
 
+export function getProjectGraphicAspectRatio(graphic) {
+  // TODO: maybe convert to URLs?
+  return graphic?.aspectRatio;
+}
+
 export function getProjectGraphics(project) {
   // TODO: maybe convert to URLs?
   return project?.graphics2;
@@ -128,6 +133,10 @@ export function getProjectGraphicsURLs(
 
       if (graphicVideo) return getGraphicURL(graphicVideo);
       if (graphicImage) {
+        const aspectRatio = getProjectGraphicAspectRatio(graphic);
+        if (aspectRatio === "square") {
+          height = width;
+        }
         return getImageUrl(graphicImage, { getHD, width, height });
       }
 
