@@ -29,6 +29,8 @@ export function getImageUrl(
   image,
   { getHD = false, width = 800, height = 450, format = "png" } = {}
 ) {
+  if (!image) return;
+
   if (getHD) return urlFor(image).url();
 
   return urlFor(image).width(width).height(height).format(format).url();
@@ -174,6 +176,10 @@ export function getProjectIsFeatured(project) {
   return project?.isFeatured;
 }
 
+export function getProjectIsHidden(project) {
+  return project?.isHidden;
+}
+
 export function getProjectFeaturedSortOrder(project) {
   return project?.featuredSortOrder;
 }
@@ -193,11 +199,13 @@ export function getSortedFeaturedProjects(data) {
 }
 
 export function getSortedProjects(data) {
-  return data?.sort((projectA, projectB) => {
-    const dateA = getProjectDate(projectA);
-    const dateB = getProjectDate(projectB);
-    return dateB.localeCompare(dateA);
-  });
+  return data
+    ?.sort((projectA, projectB) => {
+      const dateA = getProjectDate(projectA);
+      const dateB = getProjectDate(projectB);
+      return dateB.localeCompare(dateA);
+    })
+    .filter((project) => !getProjectIsHidden(project));
 }
 
 export function projectHasVideoLinks(project) {
