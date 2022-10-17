@@ -214,7 +214,7 @@ export default function Projects({ projects }) {
           </ProjectDetailsNavigationButton>{" "}
         </ProjectDetailsNavigation>
         <ProjectContentContainer fadeOut={fadeOut}>
-          <FeaturedProject project={currProject} lazyLoad="progressive" />
+          <FeaturedProject project={currProject} />
         </ProjectContentContainer>
       </ProjectDetailsContainer>
     </ProjectsPageContainer>

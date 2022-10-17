@@ -151,6 +151,7 @@ export function FeaturedProject({ project, lazyLoad = "ondemand" }) {
           <VisualContentElement singleColumn={singleColumnVisualContent}>
             <SimpleSlider
               slides={graphics}
+              graphicURLs={graphicURLs}
               id={projectId}
               lazyLoad={lazyLoad}
             />
