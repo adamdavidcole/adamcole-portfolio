@@ -50,3 +50,9 @@ export const Body = styled.div`
   line-height: 1.66em;
   margin-bottom: 1.743rem;
 `;
+
+export const Caption = styled.div`
+  font-size: 0.75rem;
+  line-height: 1.145rem;
+  margin-bottom: 1.30725rem;
+`;

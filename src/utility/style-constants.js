@@ -54,3 +54,7 @@ export const device = {
   desktop: `(min-width: ${size.desktop})`,
   desktopL: `(min-width: ${size.desktop})`,
 };
+
+export const color = {
+  blue: "#599bde",
+};

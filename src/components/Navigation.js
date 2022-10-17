@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { SPACING_PX, margins, device } from "../utility/style-constants";
+import { SPACING_PX, margins, device, color } from "../utility/style-constants";
 import { H1, H2, H3, H4 } from "../utility/typography";
 
 const Nav = styled.nav`
@@ -36,6 +36,10 @@ const ListEl = styled.li`
 const NavLink = styled(Link)`
   color: inherit;
   text-decoration: none;
+
+  &:hover {
+    color: ${color.blue};
+  }
 `;
 
 const Logo = styled(H3)`

@@ -10,8 +10,8 @@ import {
 import { FeaturedProject } from "./FeaturedProjects";
 import ProjectThumbnail from "./ProjectThumbnail";
 
-import { device, margins } from "../utility/style-constants";
-import { H3, H2 } from "../utility/typography";
+import { color, device, margins, SPACING_PX } from "../utility/style-constants";
+import { H3, H2, Caption } from "../utility/typography";
 
 const animationSpeed = "0.25s";
 const expansionWidth = 80;
@@ -54,7 +54,6 @@ const ProjectCardContainer = styled.div`
 
 const ProjectDetailsContainer = styled.div`
   position: absolute;
-  top: 0;
   height: 100%;
   width: 100vw;
   overflow: scroll;
@@ -62,11 +61,19 @@ const ProjectDetailsContainer = styled.div`
   transition: top ${animationSpeed} ease;
   background: white;
   opacity: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
-const ProjectDetailsNavigation = styled.div`
-  position: fixed;
+const ProjectDetailsNavigation = styled(Caption)`
+  align-self: flex-start;
   z-index: 1;
+
+  display: flex;
+  background: white;
+  align-items: center;
 
   margin: 0 ${margins.small};
 
@@ -75,7 +82,28 @@ const ProjectDetailsNavigation = styled.div`
   }
 `;
 
+const ProjectDetailsNavigationButton = styled.button`
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  &:hover {
+    color: ${color.blue};
+  }
+`;
+
+const ProjectDetailsNavigationSpacer = styled.span`
+  margin: 0 ${SPACING_PX[100]};
+  font-size: 1rem;
+  line-height: 1rem;
+`;
+
 const ProjectContentContainer = styled.div`
+  width: 100%;
   margin-top: 40px;
   background: white;
   opacity: ${(props) => (props.fadeOut ? "0" : "1")};
@@ -166,21 +194,27 @@ export default function Projects({ projects }) {
 
   return (
     <ProjectsPageContainer>
-      {isDetailsExpanded && (
-        <ProjectDetailsNavigation>
-          <button onClick={() => goPreviousProject()}>Previous Project</button>{" "}
-          <button onClick={() => onClose()}>Close</button>{" "}
-          <button onClick={() => goNextProject()}>Next Project</button>
-        </ProjectDetailsNavigation>
-      )}
       <ProjectsGrid>
         {projects?.map((project) => (
           <ProjectCard key={`${getProjectId(project)}`} project={project} />
         ))}
       </ProjectsGrid>
       <ProjectDetailsContainer isDetailsExpanded={isDetailsExpanded}>
+        <ProjectDetailsNavigation>
+          <ProjectDetailsNavigationButton onClick={() => goPreviousProject()}>
+            {"Previous"}
+          </ProjectDetailsNavigationButton>
+          <ProjectDetailsNavigationSpacer>{""}</ProjectDetailsNavigationSpacer>
+          <ProjectDetailsNavigationButton onClick={() => goNextProject()}>
+            {"Next"}
+          </ProjectDetailsNavigationButton>
+          <ProjectDetailsNavigationSpacer>{""}</ProjectDetailsNavigationSpacer>
+          <ProjectDetailsNavigationButton onClick={() => onClose()}>
+            {"Close"}
+          </ProjectDetailsNavigationButton>{" "}
+        </ProjectDetailsNavigation>
         <ProjectContentContainer fadeOut={fadeOut}>
-          <FeaturedProject project={expandedProject} />
+          <FeaturedProject project={currProject} />
         </ProjectContentContainer>
       </ProjectDetailsContainer>
     </ProjectsPageContainer>
