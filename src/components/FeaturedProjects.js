@@ -1,10 +1,7 @@
-import styled from "styled-components";
-import { useEffect, useState } from "react";
-import Slider from "react-slick";
+import styled, { createGlobalStyle } from "styled-components";
 
-import { SPACING_PX } from "../utility/style-constants";
-import getVimeoEmbed from "../utility/get-vimeo-embed";
 import { VimeoEmbed } from "./VimeoEmbed";
+import SimpleSlider from "./SimpleSlider";
 
 import {
   getProjectId,
@@ -13,15 +10,21 @@ import {
   getProjectTextEl,
   getProjectKeywords,
   getProjectGraphicsURLs,
-  getProjectVideoLinks,
   projectHasGraphics,
   projectHasVideoLinks,
 } from "../data/data-selectors";
-import { H2, H3, SerifH3, H4, Body } from "../utility/typography";
-import { device, margins } from "../utility/style-constants";
+import { SerifH3, H4, Body } from "../utility/typography";
+import {
+  device,
+  margins,
+  margins_num,
+  SPACING_PX,
+} from "../utility/style-constants";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+// slick-arrow slick-prev
 
 const FeaturedProjectContainer = styled.div`
   border-bottom: 1px solid black;
@@ -60,9 +63,11 @@ const VisualContentElement = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
   width: 100%;
+  max-width: 800px;
 
   @media ${device.tablet} {
-    width: 48%;
+    width: ${(props) =>
+      props.singleColumn ? "100%" : `calc(50% - ${margins_num.large / 2}px)`};
     margin-bottom: 40px;
   }
 `;
@@ -76,17 +81,17 @@ const VisualContentElementVideo = styled(VisualContentElement)`
 `;
 
 const VisualContentImg = styled.img`
-  width: 100%;
-  max-height: 450px;
-  max-width: 800px;
+  // width: 100%;
+  // max-height: 450px;
+  max-width: 100%;
   object-fit: contain;
   //   box-shadow: inset 0 0 5px 0px rgb(0, 0, 0, 0.5);
 `;
 
 const VisualContentVideo = styled.video`
-  width: 100%;
-  max-height: 450px;
-  max-width: 800px;
+  // width: 100%;
+  // max-height: 450px;
+  max-width: 100%;
   object-fit: contain;
 `;
 
@@ -96,54 +101,8 @@ const DescriptionBody = styled(Body)`
   }
 `;
 
-const SliderContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: gray;
-`;
-
-const SlideContainer = styled.div`
-  max-height: 450px;
-  max-width: 800px;
-`;
-
-function SimpleSlider({ slides = [], projectId }) {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    lazyLoad: "ondemand",
-  };
-
-  return (
-    <SliderContainer>
-      <Slider {...settings} key={projectId}>
-        {slides.map((slide, i) => (
-          <SlideContainer key={i}>{slide}</SlideContainer>
-        ))}
-      </Slider>
-    </SliderContainer>
-  );
-}
-
-export function FeaturedProject({ project }) {
-  const [videoEmbed, setVideoEmbed] = useState();
-
-  useEffect(() => {
-    const videoLinks = getProjectVideoLinks(project);
-    if (videoLinks?.length > 0) {
-      const firstVideoLink = videoLinks[0];
-
-      getVimeoEmbed({ url: firstVideoLink }).then((response) => {
-        setVideoEmbed(response.html);
-      });
-    }
-  }, [project]);
-
+export function FeaturedProject({ project, lazyLoad = "ondemand" }) {
   const projectId = getProjectId(project);
-
   const graphicURLs = getProjectGraphicsURLs(project);
 
   const graphics = graphicURLs?.map((graphicURL) => {
@@ -159,7 +118,6 @@ export function FeaturedProject({ project }) {
 
   const hasVideoLinks = projectHasVideoLinks(project);
   const hasGraphics = projectHasGraphics(project);
-  console.log("hasGraphics", hasGraphics);
   const singleColumnVisualContent =
     (hasVideoLinks && !hasGraphics) || (!hasVideoLinks && hasGraphics);
 
@@ -185,21 +143,27 @@ export function FeaturedProject({ project }) {
     <FeaturedProjectContainer>
       <VisualContent singleColumn={singleColumnVisualContent}>
         {hasVideoLinks && (
-          <VisualContentElementVideo>
+          <VisualContentElementVideo singleColumn={singleColumnVisualContent}>
             <VimeoEmbed project={project} />
           </VisualContentElementVideo>
         )}
         {hasGraphics && (
-          <VisualContentElement>
-            {graphics && (
-              <SimpleSlider slides={graphics} projectId={projectId} />
-            )}
+          <VisualContentElement singleColumn={singleColumnVisualContent}>
+            <SimpleSlider
+              slides={graphics}
+              id={projectId}
+              lazyLoad={lazyLoad}
+            />
           </VisualContentElement>
         )}
       </VisualContent>
       <VisualContentText singleColumn={singleColumnVisualContent}>
-        <VisualContentElement>{projectTiles}</VisualContentElement>
-        <VisualContentElement>{projectDescriptions}</VisualContentElement>
+        <VisualContentElement singleColumn={singleColumnVisualContent}>
+          {projectTiles}
+        </VisualContentElement>
+        <VisualContentElement singleColumn={singleColumnVisualContent}>
+          {projectDescriptions}
+        </VisualContentElement>
       </VisualContentText>
     </FeaturedProjectContainer>
   );

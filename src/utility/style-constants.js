@@ -22,10 +22,16 @@ export const SPACING_PX = {
   300: `${SPACING[300]}px`,
 };
 
+export const margins_num = {
+  small: SPACING[100],
+  medium: SPACING[125],
+  large: SPACING[250],
+};
+
 export const margins = {
-  small: SPACING_PX[100],
-  medium: SPACING_PX[125],
-  large: SPACING_PX[250],
+  small: `${margins_num.small}px`,
+  medium: `${margins_num.medium}px`,
+  large: `${margins_num.large}px`,
 };
 
 export const FONT_SIZE = {
