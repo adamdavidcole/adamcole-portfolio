@@ -6,12 +6,15 @@ import { device } from "./utility/style-constants";
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import Projects from "./components/Projects";
+import Maintenance from "./components/Maintenace";
 import fetchData from "./data/fetch-data";
 import { useState, useEffect } from "react";
 import {
   getSortedFeaturedProjects,
   getSortedProjects,
 } from "./data/data-selectors";
+
+const IS_MAINTENANCE_MODE = true;
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -44,6 +47,10 @@ export default function App() {
 
   const featuredProjects = getSortedFeaturedProjects(projectData);
   const projects = getSortedProjects(projectData);
+
+  if (IS_MAINTENANCE_MODE) {
+    return <Maintenance />;
+  }
 
   return (
     <div>
